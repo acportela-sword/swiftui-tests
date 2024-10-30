@@ -15,15 +15,16 @@ struct OffsetAndRotation: View {
 		ZStack {
 			Color.black.ignoresSafeArea()
 
-			// Can be any view with width = circleGuideDiameter
-			// The circle was just to outline the curve
+			// This circle was just to outline the curve
+			// It has no effect on the movement
 			Circle()
 				.stroke(lineWidth: 3.0)
 				.foregroundStyle(.blue)
 				.background(.black)
 				.frame(width: .diameter)
 
-			Image(systemName: "paperplane.fill")
+			Circle()
+				.frame(width: 40)
 				.foregroundStyle(.yellow)
 				// Offset + rotation (in this order) is the key here
 				.offset(x: -(.diameter / 2))
@@ -34,10 +35,9 @@ struct OffsetAndRotation: View {
 					.speed(0.5),
 					value: rotationValue
 				)
-				.background(.white)
 		}
 		.onAppear {
-			rotationValue = 360
+			rotationValue = 180
 		}
     }
 }

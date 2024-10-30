@@ -15,9 +15,9 @@ enum Step: String, CaseIterable {
 
 	var diameter: CGFloat {
 		switch self {
-		case .foo: 40
+		case .foo: 60
 		case .bar: 120
-		case .baz: 500
+		case .baz: 400
 		}
 	}
 
@@ -83,8 +83,6 @@ struct MatchedGeometryTests: View {
 				properties: .frame,
 				isSource: step == currentStep
 			)
-			.offset(x: -step.rotationOffset)
-			.rotationEffect(.degrees(step.rotationAngle))
 	}
 
 	private var fooStepView: some View {
@@ -92,13 +90,15 @@ struct MatchedGeometryTests: View {
 			RoundedRectangle(cornerSize: .init(width: 8, height: 8))
 				.frame(width: 80, height: 100)
 				.foregroundColor(.white)
-				.zIndex(1)
+				.zIndex(0)
 
 			backgroundCircle(for: .foo)
 				.frame(width: step.diameter)
 				.padding(.top, -(Step.foo.diameter / 2))
-				.padding(.leading, 80)
+				.padding(.leading, 40)
+				.zIndex(1)
 		}
+		.background(.red)
 	}
 
 	private var barStepView: some View {

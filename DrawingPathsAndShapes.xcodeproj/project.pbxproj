@@ -25,6 +25,7 @@
 		C20D781824B6C5F6002E7AEA /* RotatedBadgeSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20D781724B6C5F6002E7AEA /* RotatedBadgeSymbol.swift */; };
 		C2C583B624DB7EC700DD0019 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C583B524DB7EC700DD0019 /* ContentView.swift */; };
 		C2C583BB24DB7F1A00DD0019 /* FavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C583BA24DB7F1A00DD0019 /* FavoriteButton.swift */; };
+		D61865B32CD1345000720E63 /* ShapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61865B22CD1345000720E63 /* ShapeTests.swift */; };
 		D63EAC4C2CCB89370060E3CD /* hikeData.json in Resources */ = {isa = PBXBuildFile; fileRef = D63EAC4B2CCB89370060E3CD /* hikeData.json */; };
 		D63EAC4E2CCB89970060E3CD /* Hike.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63EAC4D2CCB89970060E3CD /* Hike.swift */; };
 		D63EAC502CCB8A8B0060E3CD /* HikeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63EAC4F2CCB8A8B0060E3CD /* HikeView.swift */; };
@@ -59,6 +60,7 @@
 		C2AC4E9C24DE2944005E019B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C2C583B524DB7EC700DD0019 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C2C583BA24DB7F1A00DD0019 /* FavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteButton.swift; sourceTree = "<group>"; };
+		D61865B22CD1345000720E63 /* ShapeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeTests.swift; sourceTree = "<group>"; };
 		D63EAC4B2CCB89370060E3CD /* hikeData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = hikeData.json; sourceTree = "<group>"; };
 		D63EAC4D2CCB89970060E3CD /* Hike.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hike.swift; sourceTree = "<group>"; };
 		D63EAC4F2CCB8A8B0060E3CD /* HikeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikeView.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				D63EAC4F2CCB8A8B0060E3CD /* HikeView.swift */,
 				D6976F762CCFFA890036B5EB /* Offset+Rotation.swift */,
 				D6976F782CD0EEAB0036B5EB /* AircraftPathView.swift */,
+				D61865B22CD1345000720E63 /* ShapeTests.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 				C20D781624B6C582002E7AEA /* BadgeSymbol.swift in Sources */,
 				C20D780B24B68B4D002E7AEA /* LandmarkList.swift in Sources */,
 				D6976F772CCFFA890036B5EB /* Offset+Rotation.swift in Sources */,
+				D61865B32CD1345000720E63 /* ShapeTests.swift in Sources */,
 				C20D781424B6A662002E7AEA /* BadgeBackground.swift in Sources */,
 				C2C583BB24DB7F1A00DD0019 /* FavoriteButton.swift in Sources */,
 				C20D77EE24B665D7002E7AEA /* LandmarksApp.swift in Sources */,

@@ -43,17 +43,17 @@ struct HikeView: View {
 			}
 
 
-//			if showDetail {
-//				HikeDetail(hike: hike)
-//					.transition(.moveAndFade)
-//			}
-
 			if showDetail {
-				Circle()
-					.fill(.blue)
-					.frame(width: 50)
-					.transition(RotatingFadeTransition())
+				HikeDetail(hike: hike)
+					.transition(.moveAndFade)
 			}
+
+//			if showDetail {
+//				Circle()
+//					.fill(.blue)
+//					.frame(width: 50)
+//					.transition(RotatingFadeTransition())
+//			}
 		}
 	}
 }

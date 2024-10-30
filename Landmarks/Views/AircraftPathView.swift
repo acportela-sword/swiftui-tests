@@ -23,15 +23,19 @@ struct AircraftPathView: View {
 
 			Slider(value: $aircraft.alongTrackDistance, in: (0.0 ... aircraft.track.totalArcLength)) {
 				Text("along track distance")
+					.foregroundStyle(.white)
 			}
 			.padding()
 
 			Button(action: { self.aircraft.fly() }) {
-				Text("Fly!")
+				Text("Trigger timer")
+					.font(.title3.bold())
+					.foregroundStyle(.white)
 			}
 			.disabled(aircraft.flying)
 			.padding()
 		}
+		.background(Color.gray)
 	}
 }
 
