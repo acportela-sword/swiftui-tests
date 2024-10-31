@@ -113,8 +113,8 @@
 		C20D77EC24B665D7002E7AEA /* Landmarks */ = {
 			isa = PBXGroup;
 			children = (
-				C20D77ED24B665D7002E7AEA /* LandmarksApp.swift */,
-				C2FEB33424B7C9AB004FAB73 /* Views */,
+				D6976F732CCFF2020036B5EB /* AppleStuff */,
+				C2FEB33424B7C9AB004FAB73 /* MyViews */,
 				C20D780924B685CB002E7AEA /* Resources */,
 				C20D77F124B665D8002E7AEA /* Assets.xcassets */,
 				C20D77F324B665D8002E7AEA /* Preview Content */,
@@ -181,22 +181,22 @@
 			path = Landmarks;
 			sourceTree = "<group>";
 		};
-		C2FEB33424B7C9AB004FAB73 /* Views */ = {
+		C2FEB33424B7C9AB004FAB73 /* MyViews */ = {
 			isa = PBXGroup;
 			children = (
-				D6976F732CCFF2020036B5EB /* AppleStuff */,
 				D6976F712CCFAD290036B5EB /* MatchedGeometryTests.swift */,
 				D63EAC4F2CCB8A8B0060E3CD /* HikeView.swift */,
 				D6976F762CCFFA890036B5EB /* Offset+Rotation.swift */,
 				D6976F782CD0EEAB0036B5EB /* AircraftPathView.swift */,
 				D61865B22CD1345000720E63 /* ShapeTests.swift */,
 			);
-			path = Views;
+			path = MyViews;
 			sourceTree = "<group>";
 		};
 		D6976F732CCFF2020036B5EB /* AppleStuff */ = {
 			isa = PBXGroup;
 			children = (
+				C20D77ED24B665D7002E7AEA /* LandmarksApp.swift */,
 				C20D780824B685C4002E7AEA /* Model */,
 				C2C583B524DB7EC700DD0019 /* ContentView.swift */,
 				D63EAC512CCB8AD10060E3CD /* HikeGraph.swift */,

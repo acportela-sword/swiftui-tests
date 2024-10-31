@@ -12,28 +12,14 @@ enum Step: String, CaseIterable {
 	case foo = "Foo"
 	case bar = "Bar"
 	case baz = "Baz"
+	case delta = "Delta"
 
 	var diameter: CGFloat {
 		switch self {
 		case .foo: 60
 		case .bar: 120
 		case .baz: 400
-		}
-	}
-
-	var rotationAngle: Double {
-		switch self {
-		case .foo: 30
-		case .bar: 90
-		case .baz: 120
-		}
-	}
-
-	var rotationOffset: CGFloat {
-		switch self {
-		case .foo: 30
-		case .bar: 90
-		case .baz: 120
+		case .delta: 80
 		}
 	}
 }
@@ -42,19 +28,13 @@ struct MatchedGeometryTests: View {
 	@Namespace var animation: Namespace.ID
 	@Namespace var circle: Namespace.ID
 
-	@State var step: Step = .baz
-	@State var rotationAngle: Double = 0.0
+	@State var step: Step = .foo
 
     var body: some View {
 		VStack {
 			title
 
-			// Findings:
-			// 1- If some step has different "layer depth" (ie: one is inside a container and the other not)
-			// Transition might not be smooth.
-			// The problem seems to happen when the source is not wrapped in a VStack/HStack but the destination is
-			// Even if one view is in a HStack and the other in a VStack the transition is smooth
-			// 2- Always have only one "isSoure = true" (documentation)
+			// - Always have only one "isSource = true" (check documentation)
 			switch step {
 			case .foo:
 				fooStepView
@@ -64,7 +44,8 @@ struct MatchedGeometryTests: View {
 				backgroundCircle(for: .baz)
 					.frame(width: step.diameter)
 					.padding(.top, 200)
-					.animation(.easeInOut(duration: 4), value: rotationAngle)
+			case .delta:
+				EmptyView()
 			}
 
 			Spacer()
@@ -76,13 +57,20 @@ struct MatchedGeometryTests: View {
 
 	private func backgroundCircle(for currentStep: Step) -> some View {
 		Circle()
-			.fill(.blue)
+			.fill(.red)
 			.matchedGeometryEffect(
 				id: circle,
 				in: animation,
-				properties: .frame,
+				properties: .size,
+				// - Only keep one "isSource = true" (check documentation)
 				isSource: step == currentStep
 			)
+	}
+
+	private var bazStepView: some View {
+		backgroundCircle(for: .baz)
+			.frame(width: step.diameter)
+			.padding(.top, 200)
 	}
 
 	private var fooStepView: some View {
@@ -90,15 +78,13 @@ struct MatchedGeometryTests: View {
 			RoundedRectangle(cornerSize: .init(width: 8, height: 8))
 				.frame(width: 80, height: 100)
 				.foregroundColor(.white)
-				.zIndex(0)
+				.zIndex(1)
 
 			backgroundCircle(for: .foo)
 				.frame(width: step.diameter)
 				.padding(.top, -(Step.foo.diameter / 2))
-				.padding(.leading, 40)
-				.zIndex(1)
+				.padding(.leading, 70)
 		}
-		.background(.red)
 	}
 
 	private var barStepView: some View {
@@ -121,14 +107,13 @@ struct MatchedGeometryTests: View {
 				withAnimation(.easeInOut(duration: 2)) {
 					step = allSteps[safeIndex: index + 1] ?? .foo
 				}
-				rotationAngle = step.rotationAngle
 			}
 		) {
 			ZStack {
 				RoundedRectangle(cornerSize: .init(width: 8, height: 8))
 					.frame(width: 120, height: 48)
 					.frame(maxWidth: .infinity)
-				Text("NeXTSTEP")
+				Text("Next")
 					.foregroundStyle(.white)
 					.font(.body.bold())
 			}
