@@ -15,6 +15,7 @@
 		D61865D52CD3BB7F00720E63 /* AircraftPathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61865D02CD3BB7E00720E63 /* AircraftPathView.swift */; };
 		D61865D62CD3BB7F00720E63 /* ShapeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61865D12CD3BB7E00720E63 /* ShapeTests.swift */; };
 		D61865D72CD3BB7F00720E63 /* TransitionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61865D22CD3BB7E00720E63 /* TransitionsTests.swift */; };
+		D6F384252D074FD400213591 /* MilestonesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F384242D074FCE00213591 /* MilestonesTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		D61865D02CD3BB7E00720E63 /* AircraftPathView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftPathView.swift; sourceTree = "<group>"; };
 		D61865D12CD3BB7E00720E63 /* ShapeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShapeTests.swift; sourceTree = "<group>"; };
 		D61865D22CD3BB7E00720E63 /* TransitionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionsTests.swift; sourceTree = "<group>"; };
+		D6F384242D074FCE00213591 /* MilestonesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestonesTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 		D61865BF2CD3BB4700720E63 /* AnimationTests */ = {
 			isa = PBXGroup;
 			children = (
+				D6F384242D074FCE00213591 /* MilestonesTests.swift */,
 				D61865D02CD3BB7E00720E63 /* AircraftPathView.swift */,
 				D61865D22CD3BB7E00720E63 /* TransitionsTests.swift */,
 				D61865CE2CD3BB7E00720E63 /* MatchedGeometryTests.swift */,
@@ -151,6 +154,7 @@
 			files = (
 				D61865C12CD3BB4700720E63 /* AnimationTestsApp.swift in Sources */,
 				D61865D72CD3BB7F00720E63 /* TransitionsTests.swift in Sources */,
+				D6F384252D074FD400213591 /* MilestonesTests.swift in Sources */,
 				D61865D42CD3BB7F00720E63 /* Offset+Rotation.swift in Sources */,
 				D61865D62CD3BB7F00720E63 /* ShapeTests.swift in Sources */,
 				D61865D52CD3BB7F00720E63 /* AircraftPathView.swift in Sources */,
