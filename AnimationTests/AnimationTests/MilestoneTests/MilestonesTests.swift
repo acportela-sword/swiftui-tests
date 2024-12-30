@@ -9,7 +9,7 @@ struct MilestonesTests: View {
 				GeometryReader { proxy in
 
 					ScrollView {
-						let shape = MilestonePath(numberOfBadges: 6)
+						let shape = MilestonePath(numberOfArcs: 3)
 						let path = shape.path(in: .init(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height))
 						let startPosition = CGPoint(x: proxy.frame(in: .local).midX, y: proxy.frame(in: .local).maxY)
 
@@ -19,25 +19,10 @@ struct MilestonesTests: View {
 								.foregroundColor(.white)
 								.frame(width: proxy.size.width, height: proxy.size.height)
 
-//							let flattened = path.cgPath.flattened(threshold: .infinity)
-//							let components = flattened.componentsSeparated().first!
-//							let _ = print("Components \(components)")
-//							let _ = print("Flattened \(flattened)")
-//
-//							Path(flattened)
-//								.stroke(lineWidth: 3)
-//								.foregroundStyle(Color.blue)
-
-//							let components = path.cgPath.componentsSeparated()
-//							let _ = print("Count \(components.count)")
-//							Path(components[0])
-//								.stroke(lineWidth: 3)
-//								.foregroundStyle(Color.red)
-
-							let totalLength = calculateTotalLength(numberOfBadges: 6, rectWidth: proxy.size.width)
-							let badge1 = positionOfArc(index: 0, rectWidth: proxy.size.width) / totalLength
-							let badge2 = positionOfArc(index: 1, rectWidth: proxy.size.width) / totalLength
-							let badge3 = positionOfArc(index: 2, rectWidth: proxy.size.width) / totalLength
+							let totalLength = totalPathLength(numberOfArcs: 3, rectWidth: proxy.size.width)
+							let badge1 = lengthOf(arc: 0, rectWidth: proxy.size.width) / totalLength
+							let badge2 = lengthOf(arc: 1, rectWidth: proxy.size.width) / totalLength
+							let badge3 = lengthOf(arc: 2, rectWidth: proxy.size.width) / totalLength
 
 							Circle()
 								.fill(.green)
@@ -63,17 +48,14 @@ struct MilestonesTests: View {
 		.ignoresSafeArea()
 	}
 
-	func calculateTotalLength(numberOfBadges: Int, rectWidth: CGFloat) -> CGFloat {
+	func totalPathLength(numberOfArcs: Int, rectWidth: CGFloat) -> CGFloat {
 		let lineWidth = rectWidth - (2 * .largeRadius)
-
-		let largeArcsLength = CGFloat(numberOfBadges) * arcLength(radius: .largeRadius, partialAngle: .degrees(.halfTurn))
-		let segmentsLength = CGFloat(numberOfBadges) * lineWidth
-
-		// TODO: Add final path after adjusting MilesonePath
-		return fixedInitialAndFinalLength(pathWidth: rectWidth) + largeArcsLength + segmentsLength
+		let largeArcsLength = CGFloat(numberOfArcs) * arcLength(radius: .largeRadius, partialAngle: .degrees(.halfTurn))
+		let segmentsLength = CGFloat(numberOfArcs - 1) * lineWidth
+		return (fixedInitialAndFinalLength(pathWidth: rectWidth) * 2) + largeArcsLength + segmentsLength
 	}
 
-	func positionOfArc(index: Int, rectWidth: CGFloat)  -> CGFloat {
+	func lengthOf(arc index: Int, rectWidth: CGFloat)  -> CGFloat {
 		let lineWidth = rectWidth - (2 * .largeRadius)
 
 		let largeArcsLength = CGFloat(index) * arcLength(radius: .largeRadius, partialAngle: .degrees(.halfTurn))
@@ -96,7 +78,7 @@ struct MilestonesTests: View {
 	func fixedInitialAndFinalLength(pathWidth: CGFloat) -> CGFloat {
 		let smallArcLength = arcLength(radius: .smallRadius, partialAngle: .degrees(.straightAngle))
 		let initialHorizontalLineWidth = (pathWidth / 2) - (.largeRadius + .smallRadius)
-		return .initialLineUpLength + smallArcLength + initialHorizontalLineWidth
+		return .bottomAndTopmostLinesUp + smallArcLength + initialHorizontalLineWidth
 	}
 }
 

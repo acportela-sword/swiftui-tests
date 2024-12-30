@@ -4,11 +4,29 @@ extension Path {
 	var currentX: CGFloat { self.currentPoint?.x ?? .zero }
 	var currentY: CGFloat { self.currentPoint?.y ?? .zero }
 
-	mutating func addInitialArc() {
+	mutating func addBottommostArc() {
 		addRelativeArc(
 			center: .init(x:  currentX - .smallRadius, y: currentY),
 			radius: .smallRadius,
 			startAngle: .degrees(.zero),
+			delta: .degrees(-.straightAngle)
+		)
+	}
+
+	mutating func addTopmostArcFromRight() {
+		addRelativeArc(
+			center: .init(x:  currentX, y: currentY - .smallRadius),
+			radius: .smallRadius,
+			startAngle: .degrees(.straightAngle),
+			delta: .degrees(.straightAngle)
+		)
+	}
+
+	mutating func addTopmostArcFromLeft() {
+		addRelativeArc(
+			center: .init(x:  currentX, y: currentY - .smallRadius),
+			radius: .smallRadius,
+			startAngle: .degrees(.straightAngle),
 			delta: .degrees(-.straightAngle)
 		)
 	}
@@ -54,7 +72,7 @@ extension Double {
 }
 
 extension CGFloat {
-	static let initialLineUpLength: Self = 50
+	static let bottomAndTopmostLinesUp: Self = 50
 	static let smallRadius: Self = 30
 	static let largeRadius: Self = 60
 }
