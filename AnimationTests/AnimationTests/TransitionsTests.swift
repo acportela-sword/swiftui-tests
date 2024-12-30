@@ -46,6 +46,7 @@ extension AnyTransition {
 	}
 }
 
+@available(iOS 17.0, *)
 struct RotatingFadeTransition: Transition {
 	func body(content: Content, phase: TransitionPhase) -> some View {
 		content
@@ -53,6 +54,8 @@ struct RotatingFadeTransition: Transition {
 		.rotationEffect(phase.rotation)
 	}
 }
+
+@available(iOS 17.0, *)
 extension TransitionPhase {
 	fileprivate var rotation: Angle {
 		switch self {

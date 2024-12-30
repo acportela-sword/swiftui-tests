@@ -18,6 +18,7 @@
 		D6F384252D074FD400213591 /* MilestonesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F384242D074FCE00213591 /* MilestonesTests.swift */; };
 		D6FF1B322D1F2274009098D4 /* MilestonePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FF1B312D1F2271009098D4 /* MilestonePath.swift */; };
 		D6FF1B342D1F22B5009098D4 /* PathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FF1B332D1F22AE009098D4 /* PathUtils.swift */; };
+		D6FF1B372D240792009098D4 /* ScrollViewTrackingOffset.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FF1B362D240790009098D4 /* ScrollViewTrackingOffset.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		D6F384242D074FCE00213591 /* MilestonesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestonesTests.swift; sourceTree = "<group>"; };
 		D6FF1B312D1F2271009098D4 /* MilestonePath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestonePath.swift; sourceTree = "<group>"; };
 		D6FF1B332D1F22AE009098D4 /* PathUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathUtils.swift; sourceTree = "<group>"; };
+		D6FF1B362D240790009098D4 /* ScrollViewTrackingOffset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewTrackingOffset.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 		D61865BF2CD3BB4700720E63 /* AnimationTests */ = {
 			isa = PBXGroup;
 			children = (
+				D6FF1B362D240790009098D4 /* ScrollViewTrackingOffset.swift */,
 				D6FF1B352D203B82009098D4 /* MilestoneTests */,
 				D61865D02CD3BB7E00720E63 /* AircraftPathView.swift */,
 				D61865D22CD3BB7E00720E63 /* TransitionsTests.swift */,
@@ -175,6 +178,7 @@
 				D61865D62CD3BB7F00720E63 /* ShapeTests.swift in Sources */,
 				D61865D52CD3BB7F00720E63 /* AircraftPathView.swift in Sources */,
 				D61865D32CD3BB7F00720E63 /* MatchedGeometryTests.swift in Sources */,
+				D6FF1B372D240792009098D4 /* ScrollViewTrackingOffset.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,6 +319,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -343,6 +348,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

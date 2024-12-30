@@ -4,6 +4,11 @@ extension Path {
 	var currentX: CGFloat { self.currentPoint?.x ?? .zero }
 	var currentY: CGFloat { self.currentPoint?.y ?? .zero }
 
+	/// Returns the point after trimming the path to the relative length
+	func pointAt(length: CGFloat, fallback: CGPoint) -> CGPoint {
+		self.trimmedPath(from: 0, to: length).currentPoint ?? fallback
+	}
+
 	mutating func addBottommostArc() {
 		addRelativeArc(
 			center: .init(x:  currentX - .smallRadius, y: currentY),
@@ -60,10 +65,6 @@ extension Path {
 	mutating func addLineUp(length: CGFloat) {
 		addLine(to: CGPoint(x: currentX, y: currentY - length))
 	}
-}
-
-extension CGRect {
-	var startingPoint: CGPoint { .init(x: self.midX, y: self.maxY) }
 }
 
 extension Double {

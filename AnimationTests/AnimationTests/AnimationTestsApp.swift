@@ -4,7 +4,7 @@ import SwiftUI
 struct AnimationTestsApp: App {
     var body: some Scene {
         WindowGroup {
-			MatchedGeometryTests()
+			MilestonesTests()
         }
     }
 }
