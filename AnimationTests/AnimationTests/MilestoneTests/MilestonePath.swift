@@ -1,6 +1,14 @@
 import SwiftUI
 
 struct MilestonePath: Shape {
+	enum RelevantPoints {
+		case firstTurn
+		case lastTurn
+		case arc(Int)
+		case startOfSegment(Int)
+		case segment(Int, dividedIn: Int, positionedAt: Int)
+	}
+
 	/// Number of arcs, excluding bottom and top small arcs
 	let numberOfArcs: Int
 	/// Must equal rect's from path(in rect: CGRect) otherwise calculations won't match
@@ -10,8 +18,11 @@ struct MilestonePath: Shape {
 
 	init(numberOfArcs: Int, rect: CGRect) {
 		self.numberOfArcs = numberOfArcs
-		self.size = rect.size
+		self.size = .init(width: rect.width, height: rect.height)
+		print("init size \(size)")
+		//print("init RECT MidX \(adjustedRect.midX)")
 		self.initialPoint = CGPoint(x: rect.midX, y: rect.maxY)
+		print("init initialPoint \(initialPoint)")
 	}
 
 	func path(in rect: CGRect) -> Path {
@@ -58,12 +69,22 @@ struct MilestonePath: Shape {
 		return path
 	}
 
+	var fixedInitialAndFinalLength: CGFloat {
+		let smallArcLength = arcLength(radius: .smallRadius, partialAngle: .degrees(.straightAngle))
+		let initialHorizontalLineWidth = (size.width / 2) - (.largeRadius + .smallRadius)
+		return .bottomAndTopmostLinesUp + smallArcLength + initialHorizontalLineWidth
+	}
+
+	var lineSegmentWidth: CGFloat { size.width - (2 * .largeRadius) }
+
 	var totalHeight: CGFloat {
 		let path = self.path(in: .init(size: size))
 		let initial = path.pointAt(length: 0, fallback: initialPoint)
 		let final = path.pointAt(length: 1, fallback: initialPoint)
 		return abs(final.y - initial.y)
 	}
+
+	var innerHeight: CGFloat { max(0, totalHeight - (2 * fixedInitialAndFinalLength))}
 
 	var bottommostPoint: CGPoint {
 		let path = self.path(in: .init(size: size))
@@ -77,26 +98,87 @@ struct MilestonePath: Shape {
 		return adjustPointIfNeeded(point, in: path)
 	}
 
+	func pointAt(_ placement: RelevantPoints) -> CGPoint {
+		switch placement {
+		case .firstTurn:
+			pointBeforeFirstArc()
+		case .lastTurn:
+			pointAfterLastArc()
+		case let .arc(index):
+			pointAtArc(index)
+		case let .startOfSegment(index):
+			pointsAtSegment(index, dividedIn: 1)[safeIndex: 0] ?? initialPoint
+		case let .segment(index, parts, positionedAt):
+			pointsAtSegment(index, dividedIn: parts)[safeIndex: positionedAt] ?? initialPoint
+		}
+	}
+
+	func partialPathUpTo(_ placement: RelevantPoints) -> Path {
+		switch placement {
+		case .firstTurn: pathBeforeFirstArc()
+		case .lastTurn: pathAfterLastArc()
+		case let .arc(index): pathToArc(index)
+		case let .startOfSegment(index): pathToSegment(index, dividedIn: 1, position: 0)
+		case let .segment(index, parts, positionedAt): pathToSegment(index, dividedIn: parts, position: positionedAt)
+		}
+	}
+
 	/// Returns the point of the path located in the "middle" if the arc. Zero based index.
-	func pointAtArc(_ index: Int) -> CGPoint {
+	private func pointAtArc(_ index: Int) -> CGPoint {
 		let path = self.path(in: .init(size: size))
 		let point = path.pointAt(length: relativeLengthOfArc(index), fallback: initialPoint)
 		return adjustPointIfNeeded(point, in: path)
 	}
 
-	func pointsAtSegment(_ index: Int, numberOfPoints: Int) -> [CGPoint] {
+	func pointsAtSegment(_ index: Int, dividedIn numberSegments: Int) -> [CGPoint] {
 		let path = self.path(in: .init(size: size))
-		let lengths = relativeLengthsOfPointsAtSegment(index, numberOfPoints: numberOfPoints)
+		let lengths = relativeLengthsOfPointsAtSegment(index, numberSegments: numberSegments)
 		return lengths.map { length in
 			adjustPointIfNeeded(path.pointAt(length: length, fallback: initialPoint), in: path)
 		}
 	}
 
-	private func relativeLengthOfArc(_ index: Int) -> CGFloat {
-		let lineWidth = size.width - (2 * .largeRadius)
+	private func pathToSegment(_ index: Int, dividedIn numberSegments: Int, position: Int) -> Path {
+		let path = self.path(in: .init(size: size))
+		let lengths = relativeLengthsOfPointsAtSegment(index, numberSegments: numberSegments)
+		guard let length = lengths[safeIndex: position] else { return path }
+		return path.pathWith(relativeLength: length)
+	}
 
+	//////
+	private func pointBeforeFirstArc() -> CGPoint {
+		let path = self.path(in: .init(size: size))
+		let point = path.pointAt(length: fixedInitialAndFinalLength / totalLength, fallback: initialPoint)
+		return adjustPointIfNeeded(point, in: path)
+	}
+
+	private func pointAfterLastArc() -> CGPoint {
+		let path = self.path(in: .init(size: size))
+		let relativeLength = (totalLength - fixedInitialAndFinalLength) / totalLength
+		let point = path.pointAt(length: relativeLength, fallback: initialPoint)
+		return adjustPointIfNeeded(point, in: path)
+	}
+
+	private func pathBeforeFirstArc() -> Path {
+		let path = self.path(in: .init(size: size))
+		return path.pathWith(relativeLength: fixedInitialAndFinalLength / totalLength)
+	}
+
+	private func pathAfterLastArc() -> Path {
+		let relativeLength = (totalLength - fixedInitialAndFinalLength) / totalLength
+		return self.path(in: .init(size: size)).pathWith(relativeLength: relativeLength)
+	}
+
+	private func pathToArc(_ index: Int) -> Path {
+		let path = self.path(in: .init(size: size))
+		return path.trimmedPath(from: 0, to: relativeLengthOfArc(index))
+	}
+
+	/////
+
+	private func relativeLengthOfArc(_ index: Int) -> CGFloat {
 		let largeArcsLength = CGFloat(index) * arcLength(radius: .largeRadius, partialAngle: .degrees(.halfTurn))
-		let segmentsLength = CGFloat(index) * lineWidth
+		let segmentsLength = CGFloat(index) * lineSegmentWidth
 
 		// Position at "middle" of the arc
 		let ninetyDegreesForward = arcLength(radius: .largeRadius, partialAngle: .degrees(.straightAngle))
@@ -109,20 +191,18 @@ struct MilestonePath: Shape {
 		return absoluteLength / totalLength
 	}
 
-	private func relativeLengthsOfPointsAtSegment(_ segmentIndex: Int, numberOfPoints: Int)  -> [CGFloat] {
-		let lineWidth = size.width - (2 * .largeRadius)
-
+	private func relativeLengthsOfPointsAtSegment(_ segmentIndex: Int, numberSegments: Int)  -> [CGFloat] {
 		let largeArcsLength = CGFloat(segmentIndex + 1) * arcLength(radius: .largeRadius, partialAngle: .degrees(.halfTurn))
-		let segmentsLength = CGFloat(segmentIndex) * lineWidth
+		let segmentsLength = CGFloat(segmentIndex) * lineSegmentWidth
 
 		let lengthToSegmentStart = fixedInitialAndFinalLength
 		+ largeArcsLength
 		+ segmentsLength
-		let lengthToSegmentEnd = lengthToSegmentStart + lineWidth
+		let lengthToSegmentEnd = lengthToSegmentStart + lineSegmentWidth
 
-		let distanceBetweenEachPoint = (lengthToSegmentEnd - lengthToSegmentStart) / CGFloat(numberOfPoints + 1)
+		let distanceBetweenEachPoint = (lengthToSegmentEnd - lengthToSegmentStart) / CGFloat(max(1, numberSegments))
 
-		let pointsRelativePositions = (1...numberOfPoints).map {
+		let pointsRelativePositions = (0...numberSegments).map {
 			let displacementOfPoint = distanceBetweenEachPoint * CGFloat($0)
 			return (lengthToSegmentStart + displacementOfPoint) / totalLength
 		}
@@ -131,16 +211,9 @@ struct MilestonePath: Shape {
 	}
 
 	private var totalLength: CGFloat {
-		let lineWidth = size.width - (2 * .largeRadius)
 		let largeArcsLength = CGFloat(numberOfArcs) * arcLength(radius: .largeRadius, partialAngle: .degrees(.halfTurn))
-		let segmentsLength = CGFloat(numberOfArcs - 1) * lineWidth
+		let segmentsLength = CGFloat(numberOfArcs - 1) * lineSegmentWidth
 		return (fixedInitialAndFinalLength * 2) + largeArcsLength + segmentsLength
-	}
-
-	private var fixedInitialAndFinalLength: CGFloat {
-		let smallArcLength = arcLength(radius: .smallRadius, partialAngle: .degrees(.straightAngle))
-		let initialHorizontalLineWidth = (size.width / 2) - (.largeRadius + .smallRadius)
-		return .bottomAndTopmostLinesUp + smallArcLength + initialHorizontalLineWidth
 	}
 
 	private func arcLength(radius: CGFloat, partialAngle: Angle = .radians(2 * .pi)) -> CGFloat {
@@ -164,6 +237,11 @@ private extension Path {
 	/// Returns the point after trimming the path to the relative length
 	func pointAt(length: CGFloat, fallback: CGPoint) -> CGPoint {
 		self.trimmedPath(from: 0, to: length).currentPoint ?? fallback
+	}
+
+	/// Returns a partial after trimming the original path to the relative length
+	func pathWith(relativeLength: CGFloat) -> Path {
+		self.trimmedPath(from: 0, to: relativeLength)
 	}
 
 	mutating func addBottommostArc() {
@@ -235,7 +313,7 @@ private extension CGFloat {
 	static let largeRadius: Self = 60
 }
 
-private extension Int {
+extension Int {
 	var isEven: Bool { self % 2 == 0 }
 }
 
