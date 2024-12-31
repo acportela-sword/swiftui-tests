@@ -1,10 +1,12 @@
 import SwiftUI
 
-struct MilestonePath: Shape {
+struct MilestonePath: InsettableShape {
 	/// Number of arcs, excluding bottom and top small arcs
 	let numberOfArcs: Int
 	/// Must equal rect's from path(in rect: CGRect) otherwise calculations won't match
 	let size: CGSize
+
+	private var insetAmount = 0.0
 
 	private let initialPoint: CGPoint
 
@@ -12,6 +14,12 @@ struct MilestonePath: Shape {
 		self.numberOfArcs = numberOfArcs
 		self.size = rect.size
 		self.initialPoint = CGPoint(x: rect.midX, y: rect.maxY)
+	}
+
+	func inset(by amount: CGFloat) -> some InsettableShape {
+		var shape = self
+		shape.insetAmount += amount
+		return shape
 	}
 
 	func path(in rect: CGRect) -> Path {

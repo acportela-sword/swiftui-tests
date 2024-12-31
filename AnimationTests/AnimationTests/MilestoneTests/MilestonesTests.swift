@@ -21,8 +21,7 @@ struct MilestonesTests: View {
 								.frame(height: shape.totalHeight)
 
 							shape
-								.stroke(lineWidth: 6)
-								.foregroundColor(.white)
+								.strokeBorder(.white, lineWidth: 6)
 								.frame(width: proxy.size.width, height: proxy.size.height)
 								.id(ScrollElementId.shape)
 								.onAppear {
