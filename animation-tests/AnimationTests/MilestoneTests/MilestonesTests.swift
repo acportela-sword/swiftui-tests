@@ -20,7 +20,7 @@ struct MilestonesTests: View {
 						VStack(spacing: 32) {
 							ZStack(alignment: .bottom) {
 								let pathRect = pathRect(from: proxy)
-								let arcs = 6
+								let arcs = 14
 								let shape = MilestonePath(numberOfArcs: arcs, rect: pathRect)
 								Color.gray.ignoresSafeArea()
 									.frame(height: shape.totalHeight)

@@ -7,17 +7,19 @@
 
 import SwiftUI
 
+struct Names: Identifiable {
+	let id: String
+}
+
 struct RandomSwiftUIView: View {
+	let list: [Names] = [.init(id: "foo"), .init(id: "foo"), .init(id: "foo"), .init(id: "foo")]
     var body: some View {
-		GeometryReader { _ in
-			VStack {
-				Text("HelloWorld")
-					.background(Color.yellow)
+		List {
+			ForEach(list) {
+				Text($0.id)
 			}
-			.background(Color.blue)
 		}
-		.background(Color.red)
-		//.frame(height: 400)
+
     }
 }
 
